@@ -1,0 +1,29 @@
+This is for if node is not connected to the master node in kubernetes clusteer
+=> kubectl get nodes # This command is used for getting the all nodes in the cluster
+=>kubeadm token create --print-join-command   #This command is used to check the master token and kubeadm join commands if forgotten and the key and token
+
+
+We can refer this Github link for the clear understanding of the problem 
+https://github.com/kubernetes/kubernetes/issues/90345
+
+we need to disable the firewall first for the connection if in case --> sudo ufw disable
+
+https://jhooq.com/14-steps-to-install-kubernetes-on-ubuntu-18-04-and-16-04/  --> steps and some commands which will help
+
+commands which i follow to make kube install and connect to cluster
+
+just after downloading all the packaged mentiooned in the kube doc do this steps on the master node
+
+
+ sudo apt-get update && sudo apt-get install -y apt-transport-https
+ufw allow 6443
+ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+     mkdir -p $HOME/.kube
+     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+     sudo chown $(id -u):$(id -g) $HOME/.kube/config
+     wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+
+Then run the following commands in slave
+ sudo swapoff -a
+  kubeadm join and the token genertrated
